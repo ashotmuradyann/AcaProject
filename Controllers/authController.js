@@ -24,16 +24,11 @@ async function register(req, res) {
   return;
 }
 
-async function logout(req, res) {
-  res.clearCookie("token");
-  res.send("Logged out");
-}
-
 async function verify(req, res) {
   const code = req.body.code;
   const user = await userModel.findOne({ _id: req.query._id });
   if (!user) {
-    res.status(401).json({ message: "User not found" });
+    res.status(401).send("User not found");
     return;
   }
   if (user.verified) {
@@ -44,22 +39,22 @@ async function verify(req, res) {
     user.code = null;
     user.verified = true;
     await user.save();
-    res.send("Account verified. Your id is " + user._id);
+    res.send("Account verified.");
     return;
   }
-  res.status(401).json({ message: "Incorrect code" });
+  res.status(401).send("Incorrect code");
 }
 
 async function login(req, res) {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email: email });
   if (!user) {
-    res.status(401).json({ message: "User not found" });
+    res.status(401).send("User not found");
     return;
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    res.status(401).json({ message: "Incorrect password" });
+    res.status(401).send("Incorrect password");
     return;
   }
   if (!user.verified) {
@@ -80,6 +75,11 @@ async function login(req, res) {
     )
   );
   res.json({ user });
+}
+
+async function logout(req, res) {
+  res.clearCookie("token");
+  res.send("Logged out");
 }
 
 module.exports = {
