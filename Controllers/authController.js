@@ -24,11 +24,6 @@ async function register(req, res) {
   return;
 }
 
-async function logout(req, res) {
-  res.clearCookie("token");
-  res.send("Logged out");
-}
-
 async function verify(req, res) {
   const code = req.body.code;
   const user = await userModel.findOne({ _id: req.query._id });
@@ -46,7 +41,7 @@ async function verify(req, res) {
   res.status(401).json({ message: "Incorrect code" });
 }
 
-async function login(req, res) {
+async function login(req, res) { 
   const { email, password } = req.body;
   const user = await userModel.findOne({ email: email });
   if (!user) {
@@ -76,6 +71,11 @@ async function login(req, res) {
     )
   );
   res.json({ user });
+}
+
+async function logout(req, res) {
+  res.clearCookie("token");
+  res.send("Logged out");
 }
 
 module.exports = {
