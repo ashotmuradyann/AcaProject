@@ -13,6 +13,9 @@ mongoose
   })
   .then(() => {
     console.log("Connected to MongoDB");
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
   })
   .catch((err) => {
     console.log("Error connecting to MongoDB: ", err);
@@ -28,7 +31,3 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});

@@ -4,7 +4,9 @@ const { getUsers, getMe } = require("../Controllers/userController");
 
 const router = express.Router();
 
+router.use(jwtAccess);
+
 router.get("/", getUsers);
-router.get("/me", jwtAccess, getMe);
+router.get("/me", getMe);
 
 module.exports = router;

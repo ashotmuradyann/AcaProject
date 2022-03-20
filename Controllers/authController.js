@@ -20,7 +20,7 @@ async function register(req, res) {
   });
   await newUser.save();
   sendMail(email, name, code);
-  res.send(`Check your email ${email}`);
+  res.send(`Check your email ${email}, Your _id is ${newUser._id}`);
   return;
 }
 
@@ -36,11 +36,15 @@ async function verify(req, res) {
     res.status(401).json({ message: "User not found" });
     return;
   }
+  if (user.verified) {
+    res.status(409).send("User already verified");
+    return;
+  }
   if (user.code === code) {
     user.code = null;
     user.verified = true;
     await user.save();
-    res.send("Verified");
+    res.send("Account verified. Your id is " + user._id);
     return;
   }
   res.status(401).json({ message: "Incorrect code" });
@@ -65,7 +69,7 @@ async function login(req, res) {
   res.cookie(
     "token",
     jwt.sign(
-      user.toJSON(),
+      { _id: user._id },
       process.env.SECRET,
       {
         expiresIn: "30m",

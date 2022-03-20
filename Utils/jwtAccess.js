@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 async function jwtAccess(req, res, next) {
   const token = req.cookies.token;
   if (!token) {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).send("Please login again");
     return;
   }
   try {
@@ -11,7 +11,7 @@ async function jwtAccess(req, res, next) {
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).send("Please login again");
   }
 }
 
