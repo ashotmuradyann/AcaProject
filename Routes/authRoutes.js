@@ -15,4 +15,4 @@ router.post("/verify", verify);
 router.post("/login", login);
 router.get("/logout", logout);
 
-module.exports = router;
+module.exports = router; 

@@ -26,6 +26,12 @@ const userSchema = new mongoose.Schema(
     code: {
       type: String,
     },
+    ticket: [
+      String
+    ],
+    carts: [
+      String
+    ]
   },
   {
     timestamps: true,
