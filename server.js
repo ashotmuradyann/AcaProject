@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-app.use("/ticket", ticketRoutes);
+app.use("/tickets", ticketRoutes);
 
 app.use((err, req, res, next) => {
   if (err instanceof AssertionError) {

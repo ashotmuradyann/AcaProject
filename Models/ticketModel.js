@@ -24,8 +24,8 @@ const ticketSchema = new mongoose.Schema({
   },
   canCancel: {
     type: Boolean,
-    required: true,  
-    default: false,      
+    required: true,
+    default: false,
   },
   cancelDate: {
     type: Boolean,
@@ -36,10 +36,20 @@ const ticketSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
-  userId:{
+  userId: {
     type: String,
     required: true,
-  }
+  },
+  likes: {
+    type: Array,
+    required: true,
+    default: [],
+  },
+  likesCount: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
 });
 
 const ticketModel = mongoose.model("Ticket", ticketSchema);
