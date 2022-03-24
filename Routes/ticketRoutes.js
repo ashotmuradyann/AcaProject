@@ -17,11 +17,11 @@ const { ticketValid } = require("../Middleware/ticketValid.js");
 router.use(jwtAccess);
 
 router.post("/createTicket", ticketValid, createTicket);
-router.post("/changeTicket", changeTicket);
+router.patch("/changeTicket", changeTicket);
 router.get("/", getTickets);
 router.get("/myTickets", getMyTickets);
 router.get("/getTicket", getTicketById);
-router.get("/deleteTicket", deleteTicket);
+router.delete("/deleteTicket", deleteTicket);
 router.get("/likeUnlike", likeUnlikeTicket);
 
 router.post("/addComment", addComment);

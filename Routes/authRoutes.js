@@ -5,12 +5,12 @@ const {
   logout,
   verify,
 } = require("../Controllers/authController");
-const validMail = require("../Middleware/validMail");
-const passVal = require("../Middleware/passValid");
+const mailValid = require("../Middleware/mailValid");
+const passValid = require("../Middleware/passValid");
 
 const router = Router();
 
-router.post("/register", validMail, passVal, register);
+router.post("/register", mailValid, passValid, register);
 router.post("/verify", verify);
 router.post("/login", login);
 router.get("/logout", logout);
