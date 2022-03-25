@@ -1,7 +1,6 @@
 const userModel = require("../Models/userModel");
 
 async function getUsers(req, res) {
-  console.log(req.ip);
   try {
     const users = await userModel.find({}, { email: 1, name: 1, _id: 0 });
     res.json({ users });

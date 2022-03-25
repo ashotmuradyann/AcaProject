@@ -5,6 +5,12 @@ async function createTicket(req, res) {
   if (req.user) {
     const { name, description, price, quantity, countries, date } = req.body;
     try {
+      if (new Date(date) < new Date()) {
+        res
+          .status(400)
+          .json({ message: "Date must be in future. Date format 2022-10-16" });
+        return;
+      }
       const newTicket = new ticketModel({
         name,
         description,
@@ -122,7 +128,6 @@ async function deleteTicket(req, res) {
       const ticket_id = req.query.ticket_id;
       const ticket = await ticketModel.findById(ticket_id);
       if (ticket) {
-        console.log(req.user._id, ticket.userId);
         if (req.user._id == ticket.userId) {
           const comments = await commentModel.find({ ticketId: ticket_id });
           if (comments.length) {

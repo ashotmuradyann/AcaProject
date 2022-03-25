@@ -6,8 +6,8 @@ const sendMail = require("../Utils/mailAccess");
 
 async function register(req, res) {
   try {
-    const { name, email, password } = req.body;
-    if (!name) {
+    const { name, email, country, password } = req.body;
+    if (!name || !country) {
       res.status(400).json({ message: "Name is required" });
       return;
     }
@@ -16,6 +16,7 @@ async function register(req, res) {
     const newUser = new userModel({
       name,
       email,
+      country,
       password: hash,
       code,
     });

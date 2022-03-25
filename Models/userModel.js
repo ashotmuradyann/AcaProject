@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    country: {
+      type: String,
+      // required: true,
+    },
     coins: {
       type: Number,
       default: 1000,

@@ -16,6 +16,7 @@ const { ticketValid } = require("../Middleware/ticketValid.js");
 router.use(jwtAccess);
 
 router.use("/comments", require("./commentRoutes.js"));
+router.use("/filter", require("./filterRoutes.js"));
 
 router.post("/createTicket", ticketValid, createTicket);
 router.patch("/changeTicket", changeTicket);

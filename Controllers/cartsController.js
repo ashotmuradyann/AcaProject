@@ -7,22 +7,29 @@ async function addCart(req, res) {
       const ticket_id = req.query.ticket_id;
       const ticket = await ticketModel.findById(ticket_id);
       const user = await userModel.findById(req.user._id);
-      if (ticket.userId !== req.user._id) {
-        //   if(user.countrie.includes(ticket.countries)){
-        if (
-          !user.carts.includes(ticket_id) &&
-          !user.orders.includes(ticket_id)
-        ) {
-          if (ticket.price <= user.coins) {
-            user.carts.push(ticket._id);
-            await user.save();
-            res.json(user.carts);
+      if (!ticket.cancelDate || new date(ticket.date) > new date()) {
+        if (ticket.userId !== req.user._id) {
+          if (ticket.countries.includes(user.country)) {
+            if (
+              !user.carts.includes(ticket_id) &&
+              !user.orders.includes(ticket_id)
+            ) {
+              if (ticket.price <= user.coins) {
+                user.carts.push(ticket._id);
+                await user.save();
+                res.json(user.carts);
+                return;
+              }
+              res.send("insufficient coins");
+              return;
+            }
+            res.send("It ticket already in cart or bought");
             return;
           }
-          res.send("insufficient coins");
+          res.send("This ticket is not for your country");
           return;
         }
-        res.send("It ticket already in cart or bought");
+        res.send("Ticket date is expired");
       }
       res.send("It your ticket");
       return;
