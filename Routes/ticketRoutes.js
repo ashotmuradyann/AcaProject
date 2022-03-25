@@ -11,10 +11,11 @@ const {
   likeUnlikeTicket,
   getMyTickets,
 } = require("../Controllers/ticketController");
-const { addComment, getComments } = require("../Controllers/messageController");
 const { ticketValid } = require("../Middleware/ticketValid.js");
 
 router.use(jwtAccess);
+
+router.use("/comments", require("./commentRoutes.js"));
 
 router.post("/createTicket", ticketValid, createTicket);
 router.patch("/changeTicket", changeTicket);
@@ -23,8 +24,5 @@ router.get("/myTickets", getMyTickets);
 router.get("/getTicket", getTicketById);
 router.delete("/deleteTicket", deleteTicket);
 router.get("/likeUnlike", likeUnlikeTicket);
-
-router.post("/addComment", addComment);
-router.get("/getComments", getComments);
 
 module.exports = router;

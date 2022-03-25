@@ -1,4 +1,5 @@
 const ticketModel = require("../Models/ticketModel.js");
+const commentModel = require("../Models/commentModel.js");
 
 async function createTicket(req, res) {
   if (req.user) {
@@ -37,7 +38,6 @@ async function getTickets(req, res) {
     if (tickets.length) {
       tickets.filter((id) => {
         id.userId != req.user._id;
-        console.log(id);
       });
       res.send(tickets);
       return;
@@ -124,6 +124,12 @@ async function deleteTicket(req, res) {
       if (ticket) {
         console.log(req.user._id, ticket.userId);
         if (req.user._id == ticket.userId) {
+          const comments = await commentModel.find({ ticketId: ticket_id });
+          if (comments.length) {
+            comments.forEach(async (comment) => {
+              await comment.remove();
+            });
+          }
           await ticket.remove();
           res.send("ticket removed");
           return;

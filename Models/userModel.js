@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema(
     code: {
       type: String,
     },
+    orders: {
+      type: [String],
+      default: [],
+    },
+    carts: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,

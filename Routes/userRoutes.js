@@ -6,6 +6,9 @@ const router = express.Router();
 
 router.use(jwtAccess);
 
+router.use("/carts", require("./cartRoutes.js"));
+router.use("/orders", require("./orderRoutes.js"));
+
 router.get("/", getUsers);
 router.get("/me", getMe);
 
