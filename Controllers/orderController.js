@@ -97,15 +97,18 @@ async function cancelOrder(req, res) {
       const ticket = await ticketModel.findById(req.query.order_id);
       if (ticket.canCancel) {
         const seller = await userModel.findById(ticket.userId);
-        buyer.coins += ticket.price;
-        buyer.orders.splice(buyer.orders.indexOf(ticket._id), 1);
-        seller.coins -= ticket.price;
-        ticket.quantity++;
-        await buyer.save();
-        await seller.save();
-        await ticket.save();
-        res.json(buyer.orders);
-        return;
+        if (ticket.price <= seller.coins) {
+          buyer.coins += ticket.price;
+          buyer.orders.splice(buyer.orders.indexOf(ticket._id), 1);
+          seller.coins -= ticket.price;
+          ticket.quantity++;
+          await buyer.save();
+          await seller.save();
+          await ticket.save();
+          res.json(buyer.orders);
+          return;
+        }
+        res.send("Insufficient coins");
       }
       res.send("This ticket cannot be cancelled");
       return;

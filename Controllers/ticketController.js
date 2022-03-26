@@ -3,7 +3,8 @@ const commentModel = require("../Models/commentModel.js");
 
 async function createTicket(req, res) {
   if (req.user) {
-    const { name, description, price, quantity, countries, date } = req.body;
+    const { name, description, price, quantity, countries, date, canCancel } =
+      req.body;
     try {
       if (new Date(date) < new Date()) {
         res
@@ -20,6 +21,9 @@ async function createTicket(req, res) {
         date,
         userId: req.user._id,
       });
+      if (canCancel === true) {
+        newTicket.canCancel = canCancel;
+      }
       await newTicket.save();
       const ticket = await ticketModel.findById(newTicket._id, {
         __v: 0,
